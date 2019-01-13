@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.entity.Xuanke">
+	<resultMap type="xuanke" id="xuankeMap">
+		<id property="xuanke_id" column="xuanke_id" />
+		<result property="courseid" column="courseid" />
+		<result property="teacherid" column="teacherid" />
+		<result property="room_id" column="room_id" />
+		<result property="xuanke_xz" column="xuanke_xz" />
+		<result property="xuanke_yz" column="xuanke_yz" />
+		<result property="coursename" column="coursename" />
+		<result property="teachername" column="teachername" />
+		<result property="room_name" column="room_name" />
+		<result property="room_adress" column="room_adress" />
+	</resultMap>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllXuanke" resultMap="xuankeMap">
+		select a.* , b.coursename ,
+		c.teachername ,d.room_name ,d.room_adress from xuanke a , course b , teacher c,room d where a.courseid =
+		b.courseid and a.teacherid = c.teacherid and a.room_id=d.room_id order by xuanke_id desc
+	</select>
+	<insert id="insertXuanke" parameterType="xuanke">
+		insert into
+		xuanke(xuanke_id , courseid , teacherid , room_id , xuanke_xz, xuanke_yz ) 
+		values(#{xuanke_id} , #{courseid} ,
+		#{teacherid} ,#{room_id} , #{xuanke_xz} ,#{xuanke_yz} )
+	</insert>
+	<delete id="deleteXuanke" parameterType="String">
+		delete from xuanke where xuanke_id = #{xuanke_id}
+	</delete>
+	
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateXuanke" parameterType="xuanke">
+		update xuanke set courseid=#{courseid} , teacherid=#{teacherid} ,room_id=#{room_id} ,xuanke_xz=#{xuanke_xz},xuanke_yz=#{xuanke_yz} where xuanke_xz=#{xuanke_xz} and xuanke_yz=#{xuanke_yz} 
+	</update>
+	
+	
+</mapper>
+
+

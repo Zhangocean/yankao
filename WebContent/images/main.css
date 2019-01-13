@@ -1,0 +1,80 @@
+body {
+	margin:0;
+    SCROLLBAR-FACE-COLOR: #C2D4E7; SCROLLBAR-HIGHLIGHT-COLOR: #AEC3DE; 
+    SCROLLBAR-SHADOW-COLOR: #AEC3DE; SCROLLBAR-DARKSHADOW-COLOR: #AEC3DE; 
+    SCROLLBAR-3DLIGHT-COLOR: #AEC3DE; SCROLLBAR-ARROW-COLOR: #C2D4E7;
+    SCROLLBAR-TRACK-COLOR: #E6F3FF; 
+}
+td {
+	font-family:  Helvetica, sans-serif, "宋体";
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+}
+input {
+	font-size: 12px;
+}
+textarea {
+	font-size: 12px;
+}
+a:link {
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	color: #000000;
+	text-decoration: none;
+}
+a:hover {
+	color: 0000ff;
+	text-decoration: none;
+}
+a.style01:link {
+	color: #0000ff;
+	text-decoration: none;
+}
+a.style01:visited {
+	color: #0000ff;
+	text-decoration: none;
+}
+a.style01:hover {
+	color: #cc0000;
+	text-decoration: none;
+}
+select {
+	font-size: 12px;
+}
+.enfont {
+	font-family: Verdana, Arial, Helvetica, sans-serif, "宋体";
+	font-size: 9px;
+}
+.bland {
+	border: 1px outset #aec3de;
+}
+.tfoot
+{
+	color: #001F30;
+	background: #DEE0E2;
+	border: outset 1px;
+}
+.tborder
+{
+	border: ridge 4px;
+}
+.optiontitle
+{
+	font-weight: bold;
+	color: #434343;
+	height: 26px;
+	background-image:url( ../images/table_header.gif);
+}
+
+.title{font-size:14px;font-weight:bold;color:#193B88;}
+.red{font-size:12px;font-weight:bold;color:#0000ff;}
+.line{line-height:200%;}
+.box {
+	BACKGROUND-COLOR: ffffff;BORDER: #d47004 1px solid;  FONT-SIZE: 12px;  font-family:Verdana, Arial, Helvetica, sans-serif, "宋体";
+}
+textarea {
+	BACKGROUND-COLOR: ffffff;BORDER: #CCE6FF 1px solid;  FONT-SIZE: 12px;  font-family:Verdana, Arial, Helvetica, sans-serif, "宋体";
+}

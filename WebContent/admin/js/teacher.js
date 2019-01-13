@@ -1,0 +1,1 @@
+function check(){if(document.myform.teachername.value==''){alert('请输入教师姓名'); return false; }if(document.myform.image.value==''){alert('请输入照片'); return false; }if(document.myform.sex.value==''){alert('请输入性别'); return false; }if(document.myform.birthday.value==''){alert('请输入出生日期'); return false; }if(document.myform.contents.value==''){alert('请输入教师介绍'); return false; }}

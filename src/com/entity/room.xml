@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.entity.Room">
+	<resultMap type="room" id="roomMap">
+		<id property="room_id" column="room_id" />
+		<result property="room_name" column="room_name" />
+		<result property="room_adress" column="room_adress" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertRoom" parameterType="room">
+		insert into room(room_id,room_name ,room_adress ) values(#{room_id} ,#{room_name} ,#{room_adress})
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateRoom" parameterType="room">
+		update room set room_name=#{room_name} ,room_adress=#{room_adress} where room_id=#{room_id}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteRoom" parameterType="String">
+		delete from room where room_id = #{room_id}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllRoom" resultMap="roomMap">
+		select a.* from room a order by room_id desc
+	</select>
+	
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getRoomById" parameterType="String" resultMap="roomMap">
+		select a.* from room a where room_id=#{room_id} order by room_id desc
+	</select>
+	
+	
+	
+	
+	
+<!-- 	<select id="getRoomFront" resultMap="roomMap">
+		select a.* from cate a order by cateid desc limit 3
+	</select>
+	按主键查询 DAO通过id调用此配置
+	<select id="getCateById" parameterType="String" resultMap="cateMap">
+		select a.* from cate a where cateid=#{cateid} order by cateid desc
+	</select>
+	按条件精确查询 DAO通过id调用此配置
+	<select id="getCateByCond" parameterType="cate" resultMap="cateMap">
+		select a.* from cate a where 1=1
+		<if test="catename != null and '' != catename">
+			and a.catename = #{catename}
+		</if>
+	</select>
+	按条件模糊查询 DAO通过id调用此配置
+	<select id="getCateByLike" parameterType="cate" resultMap="cateMap">
+		select a.* from cate a where 1=1
+		<if test="catename != null and '' != catename">
+			and a.catename like CONCAT('%', CONCAT(#{catename}, '%'))
+		</if>
+	</select> -->
+</mapper>
+
+

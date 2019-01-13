@@ -1,0 +1,1 @@
+function check(){if(document.myform.usersid.value==''){alert('请输入用户'); return false; }if(document.myform.bbsid.value==''){alert('请输入留言'); return false; }if(document.myform.contents.value==''){alert('请输入内容'); return false; }if(document.myform.addtime.value==''){alert('请输入回复日期'); return false; }}

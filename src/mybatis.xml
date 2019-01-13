@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="admin" type="com.entity.Admin" />
+		<typeAlias alias="users" type="com.entity.Users" />
+		<typeAlias alias="article" type="com.entity.Article" />
+		<typeAlias alias="cate" type="com.entity.Cate" />
+		<typeAlias alias="teacher" type="com.entity.Teacher" />
+		<typeAlias alias="course" type="com.entity.Course" />
+		<typeAlias alias="files" type="com.entity.Files" />
+		<typeAlias alias="vedio" type="com.entity.Vedio" />
+		<typeAlias alias="topic" type="com.entity.Topic" />
+		<typeAlias alias="bbs" type="com.entity.Bbs" />
+		<typeAlias alias="rebbs" type="com.entity.Rebbs" />
+		<typeAlias alias="fav" type="com.entity.Fav" />
+		<typeAlias alias="xuanke" type="com.entity.Xuanke" />
+		<typeAlias alias="room" type="com.entity.Room" /> 
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/entity/admin.xml" />
+		<mapper resource="com/entity/users.xml" />
+		<mapper resource="com/entity/article.xml" />
+		<mapper resource="com/entity/cate.xml" />
+		<mapper resource="com/entity/teacher.xml" />
+		<mapper resource="com/entity/course.xml" />
+		<mapper resource="com/entity/files.xml" />
+		<mapper resource="com/entity/vedio.xml" />
+		<mapper resource="com/entity/topic.xml" />
+		<mapper resource="com/entity/bbs.xml" />
+		<mapper resource="com/entity/rebbs.xml" />
+		<mapper resource="com/entity/fav.xml" />
+		<mapper resource="com/entity/xuanke.xml" />
+	    <mapper resource="com/entity/room.xml" /> 
+	</mappers>
+</configuration>

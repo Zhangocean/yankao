@@ -1,0 +1,1 @@
+function check(){if(document.myform.title.value==''){alert('请输入标题'); return false; }if(document.myform.courseid.value==''){alert('请输入课程'); return false; }if(document.myform.url.value==''){alert('请输入视频地址'); return false; }if(document.myform.addtime.value==''){alert('请输入发布日期'); return false; }if(document.myform.hits.value==''){alert('请输入点击数'); return false; }}

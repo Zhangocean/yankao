@@ -1,0 +1,1 @@
+function check(){if(document.myform.filesname.value==''){alert('请输入资料名称'); return false; }if(document.myform.courseid.value==''){alert('请输入课程'); return false; }if(document.myform.url.value==''){alert('请输入资料文件'); return false; }if(document.myform.addtime.value==''){alert('请输入上传日期'); return false; }}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.entity.Course">
+	<resultMap type="course" id="courseMap">
+		<id property="courseid" column="courseid" />
+		<result property="coursename" column="coursename" />
+		<result property="image" column="image" />
+		<result property="cateid" column="cateid" />
+		<result property="teacherid" column="teacherid" />
+		<result property="contents" column="contents" />
+		<result property="addtime" column="addtime" />
+		<result property="hits" column="hits" />
+		<result property="catename" column="catename" />
+		<result property="teachername" column="teachername" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertCourse" parameterType="course">
+		insert into
+		course(courseid , coursename , image , cateid , teacherid ,
+		contents ,
+		addtime , hits ) values(#{courseid} , #{coursename} ,
+		#{image} ,
+		#{cateid} , #{teacherid} , #{contents} , #{addtime} ,
+		#{hits} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateCourse" parameterType="course">
+		update course set
+		coursename=#{coursename} , image=#{image} ,
+		cateid=#{cateid} ,
+		teacherid=#{teacherid} , contents=#{contents} ,
+		addtime=#{addtime} ,
+		hits=#{hits} where courseid=#{courseid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteCourse" parameterType="String">
+		delete from course where
+		courseid = #{courseid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllCourse" resultMap="courseMap">
+		select a.* , b.teachername ,
+		c.catename from course a , teacher b , cate c where a.teacherid =
+		b.teacherid and a.cateid = c.cateid order by courseid desc
+	</select>
+	<select id="getCourseByNews" resultMap="courseMap">
+		select a.* , b.teachername , c.catename from course a , teacher b ,
+		cate c where a.teacherid = b.teacherid and a.cateid = c.cateid order by Courseid desc limit
+		4
+	</select>
+
+	<select id="getCourseByHot" resultMap="courseMap">
+		select a.* , b.teachername , c.catename from course a , teacher b ,
+		cate c where a.teacherid = b.teacherid and a.cateid = c.cateid order by hits desc limit 5
+	</select>
+
+	<select id="getCourseByCate" parameterType="String" resultMap="courseMap">
+		select a.* , b.teachername , c.catename from course a , teacher b ,
+		cate c where a.teacherid = b.teacherid and a.cateid = c.cateid and
+		a.cateid=#{cateid} order by hits desc limit 5
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getCourseById" parameterType="String" resultMap="courseMap">
+		select a.* , b.teachername , c.catename from course a , teacher b ,
+		cate c where a.teacherid = b.teacherid and a.cateid = c.cateid and
+		courseid=#{courseid} order by courseid
+		desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getCourseByCond" parameterType="course" resultMap="courseMap">
+		select a.* , b.teachername , c.catename from course a , teacher b ,
+		cate c where a.teacherid = b.teacherid and a.cateid = c.cateid
+		<if test="coursename != null and '' != coursename">
+			and a.coursename = #{coursename}
+		</if>
+		<if test="image != null and '' != image">
+			and a.image = #{image}
+		</if>
+		<if test="cateid != null and '' != cateid">
+			and a.cateid = #{cateid}
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and a.teacherid = #{teacherid}
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents = #{contents}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits = #{hits}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getCourseByLike" parameterType="course" resultMap="courseMap">
+		select a.* , b.teachername , c.catename from course a , teacher b ,
+		cate c where a.teacherid = b.teacherid and a.cateid = c.cateid
+		<if test="coursename != null and '' != coursename">
+			and a.coursename like CONCAT('%', CONCAT(#{coursename},
+			'%'))
+		</if>
+		<if test="image != null and '' != image">
+			and a.image like CONCAT('%', CONCAT(#{image}, '%'))
+		</if>
+		<if test="cateid != null and '' != cateid">
+			and c.catename like CONCAT('%', CONCAT(#{cateid}, '%'))
+		</if>
+		<if test="teacherid != null and '' != teacherid">
+			and b.teachername like CONCAT('%', CONCAT(#{teacherid},
+			'%'))
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents like CONCAT('%', CONCAT(#{contents}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits like CONCAT('%', CONCAT(#{hits}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

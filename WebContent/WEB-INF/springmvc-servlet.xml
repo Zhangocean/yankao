@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	<!-- 启用自动扫描 -->
+	<context:component-scan base-package="com.action"></context:component-scan>
+	<!-- 启用springmvc相关Annotation的处理器 -->
+	<mvc:annotation-driven />
+
+	<!-- 采用注释的方式配置bean -->
+	<context:annotation-config />
+	<!--proxy-target-class="true"强制使用cglib代理 如果为false则spring会自动选择 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 配置dbcp数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/kaoyan?useSSL=false&amp;serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="123456" />
+		<!-- 队列中的最小等待数 -->
+		<property name="minIdle" value="1"></property>
+		<!-- 队列中的最大等待数 -->
+		<property name="maxIdle" value="5"></property>
+		<!-- 最长等待时间，单位毫秒 -->
+		<property name="maxWait" value="3000"></property>
+		<!-- 最大活跃数 -->
+		<property name="maxActive" value="5"></property>
+		<property name="initialSize" value="3"></property>
+	</bean>
+
+	<!-- 配置mybitasSqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+	</bean>
+
+	<!-- 配置SqlSessionTemplate -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- 事务配置 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 使用annotation注解方式配置事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 这里的配置是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 支持上传文件 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="104857600" />
+		<property name="maxInMemorySize" value="4096" />
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+
+	<!-- indexAction 注入DAO -->
+	<bean id="indexAction" name="indexAction" class="com.action.IndexAction">
+		<property name="articleDAO" ref="articleDAO"></property>
+		<property name="bbsDAO" ref="bbsDAO"></property>
+		<property name="usersDAO" ref="usersDAO"></property>
+		<property name="cateDAO" ref="cateDAO"></property>
+		<property name="favDAO" ref="favDAO"></property>
+		<property name="rebbsDAO" ref="rebbsDAO"></property>
+		<property name="courseDAO" ref="courseDAO"></property>
+		<property name="teacherDAO" ref="teacherDAO"></property>
+		<property name="topicDAO" ref="topicDAO"></property>
+		<property name="vedioDAO" ref="vedioDAO"></property>
+		<property name="filesDAO" ref="filesDAO"></property>
+		 <property name="xuankeDAO" ref="xuankeDAO"></property>
+	</bean>
+	<!-- 上传文件Action -->
+	<bean id="uploadAction" name="uploadAction" class="com.action.UploadAction"></bean>
+
+	<!-- 业务Action -->
+	<!-- 定义AdminDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="adminDAO" name="adminDAO" class="com.dao.AdminDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- AdminAction 注入DAO -->
+	<bean id="adminAction" name="adminAction" class="com.action.AdminAction">
+		<property name="adminDAO" ref="adminDAO"></property>
+	</bean>
+
+	<!-- 定义UsersDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="usersDAO" name="usersDAO" class="com.dao.UsersDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- UsersAction 注入DAO -->
+	<bean id="usersAction" name="usersAction" class="com.action.UsersAction">
+		<property name="usersDAO" ref="usersDAO"></property>
+	</bean>
+
+	<!-- 定义ArticleDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="articleDAO" name="articleDAO" class="com.dao.ArticleDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- ArticleAction 注入DAO -->
+	<bean id="articleAction" name="articleAction" class="com.action.ArticleAction">
+		<property name="articleDAO" ref="articleDAO"></property>
+	</bean>
+
+	<!-- 定义CateDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="cateDAO" name="cateDAO" class="com.dao.CateDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- CateAction 注入DAO -->
+	<bean id="cateAction" name="cateAction" class="com.action.CateAction">
+		<property name="cateDAO" ref="cateDAO"></property>
+	</bean>
+
+	<!-- 定义TeacherDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="teacherDAO" name="teacherDAO" class="com.dao.TeacherDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- TeacherAction 注入DAO -->
+	<bean id="teacherAction" name="teacherAction" class="com.action.TeacherAction">
+		<property name="teacherDAO" ref="teacherDAO"></property>
+	</bean>
+
+	<!-- 定义CourseDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="courseDAO" name="courseDAO" class="com.dao.CourseDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- CourseAction 注入DAO -->
+	<bean id="courseAction" name="courseAction" class="com.action.CourseAction">
+		<property name="courseDAO" ref="courseDAO"></property>
+		<property name="cateDAO" ref="cateDAO"></property>
+		<property name="teacherDAO" ref="teacherDAO"></property>
+	</bean>
+
+	<!-- 定义FilesDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="filesDAO" name="filesDAO" class="com.dao.FilesDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- FilesAction 注入DAO -->
+	<bean id="filesAction" name="filesAction" class="com.action.FilesAction">
+		<property name="filesDAO" ref="filesDAO"></property>
+		<property name="courseDAO" ref="courseDAO"></property>
+	</bean>
+
+	<!-- 定义VedioDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="vedioDAO" name="vedioDAO" class="com.dao.VedioDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- VedioAction 注入DAO -->
+	<bean id="vedioAction" name="vedioAction" class="com.action.VedioAction">
+		<property name="vedioDAO" ref="vedioDAO"></property>
+		<property name="courseDAO" ref="courseDAO"></property>
+	</bean>
+
+	<!-- 定义TopicDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="topicDAO" name="topicDAO" class="com.dao.TopicDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- TopicAction 注入DAO -->
+	<bean id="topicAction" name="topicAction" class="com.action.TopicAction">
+		<property name="topicDAO" ref="topicDAO"></property>
+		<property name="usersDAO" ref="usersDAO"></property>
+		<property name="courseDAO" ref="courseDAO"></property>
+	</bean>
+
+	<!-- 定义BbsDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="bbsDAO" name="bbsDAO" class="com.dao.BbsDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- BbsAction 注入DAO -->
+	<bean id="bbsAction" name="bbsAction" class="com.action.BbsAction">
+		<property name="bbsDAO" ref="bbsDAO"></property>
+		<property name="usersDAO" ref="usersDAO"></property>
+	</bean>
+
+	<!-- 定义RebbsDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="rebbsDAO" name="rebbsDAO" class="com.dao.RebbsDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- RebbsAction 注入DAO -->
+	<bean id="rebbsAction" name="rebbsAction" class="com.action.RebbsAction">
+		<property name="rebbsDAO" ref="rebbsDAO"></property>
+		<property name="usersDAO" ref="usersDAO"></property>
+	</bean>
+
+	<!-- 定义FavDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="favDAO" name="favDAO" class="com.dao.FavDAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+	<!-- FavAction 注入DAO -->
+	<bean id="favAction" name="favAction" class="com.action.FavAction">
+		<property name="favDAO" ref="favDAO"></property>
+		<property name="usersDAO" ref="usersDAO"></property>
+		<property name="courseDAO" ref="courseDAO"></property>
+	</bean>
+	
+	<!-- 定义XuankeDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="xuankeDAO" name="xuankeDAO" class="com.dao.XuankeDAO">
+		 <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property> 
+	</bean>
+	<bean id="xuankeAction" name="xuankeAction" class="com.action.XuankeAction">
+		<property name="teacherDAO" ref="teacherDAO"></property>
+		<property name="xuankeDAO" ref="xuankeDAO"></property>
+		<property name="roomDAO" ref="roomDAO"></property>
+		<property name="courseDAO" ref="courseDAO"></property>
+	</bean>
+	<!-- 定义RoomDAO并注入sqlSessionTemplate的实例 -->
+	<bean id="roomDAO" name="roomDAO" class="com.dao.RoomDAO">
+		 <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property> 
+	</bean>
+	<bean id="roomAction" name="roomAction" class="com.action.RoomAction">
+		<property name="roomDAO" ref="roomDAO"></property>
+	</bean>
+	
+
+</beans>
